@@ -4,6 +4,8 @@
 # - quit session
 # - over the internet
 
+# cd "C:\Users\chira\Personal Projects\ChatterBox"
+
 # TODO:
 # Add Function Specs and comments
 # Organize my folders 
@@ -118,5 +120,5 @@ print("Server is listening...")
 receive()
 
 
-# cd "C:\Users\chira\Personal Projects\Remote Screen Control"
+
 

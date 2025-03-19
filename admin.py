@@ -13,10 +13,11 @@ admin.connect((host, port))
 
 
 exit_event = threading.Event()
-nickname = input("Choose a nickname: ")
+# nickname = input("Choose a nickname: ")
+
 
 while True:
-
+    global nickname
     if exit_event.is_set():
         break
 
@@ -55,6 +56,7 @@ while True:
                     break   
 
     elif message == 'NICK':
+        nickname = input("Choose a nickname: ")
         admin.send(nickname.encode('ascii'))
 
     elif message == 'NICK_DUP':
@@ -90,6 +92,7 @@ def receive():
 
 def write():
     while not exit_event.is_set():
+        global nickname 
         try:
             # Note: input() is blocking. This thread might not exit immediately
             # if it's waiting for input, but it will exit after input() returns.

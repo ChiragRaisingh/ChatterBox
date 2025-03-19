@@ -4,7 +4,7 @@ import sys
 
 # Create an event to signal threads to exit
 exit_event = threading.Event()
-nickname = input("Choose a nickname: ")
+# nickname = input("Choose a nickname: ")
 
 host = "127.0.0.1"  # localhost
 port = 55555
@@ -14,7 +14,7 @@ client.connect((host, port))
 
 # --- Handshake Section ---
 while True:
-
+    global nickname
     if exit_event.is_set():
             break
 
@@ -37,6 +37,7 @@ while True:
         client.send("CLIENT".encode('ascii'))
 
     elif message == 'NICK':
+        nickname = input("Choose a nickname: ")
         client.send(nickname.encode('ascii'))
 
     elif message == 'NICK_DUP':         
@@ -71,6 +72,7 @@ def receive():
 
 def write():
     while not exit_event.is_set():
+        global nickname
         try:
             # Note: input() is blocking. This thread might not exit immediately
             # if it's waiting for input, but it will exit after input() returns.
