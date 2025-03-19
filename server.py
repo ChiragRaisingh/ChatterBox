@@ -54,8 +54,24 @@ def handle(client):
     while True:
         try:
             message = client.recv(1024)
-            broadcast(message)
+            messagechars = list(message.decode('ascii'))
 
+            if HasAdmin and getNicknameByClient(client) == adminNickname:
+                cmndid_idx = len(adminNickname) + 5
+                if messagechars[cmndid_idx] == "/":
+                    start_idx = cmndid_idx + 1
+                    end_idx = start_idx
+                    while end_idx < len(messagechars) and messagechars[end_idx] != " ":
+                        end_idx += 1
+
+                    cmnd = str(''.join(messagechars[start_idx:end_idx]))
+                    nickname = str(''.join(messagechars[end_idx+1:len(messagechars)-1]))
+                    adminPerms(cmnd, nickname)
+                else:
+                    broadcast(message)
+            else:
+                broadcast(message)
+                
         except:
 
             with data_lock:
@@ -65,7 +81,19 @@ def handle(client):
             broadcast(f"{nickname} left the chat...".encode('ascii'))
             break
         
+def adminPerms(cmnd, nickname):
+    if cmnd == "kick":
+        kick(nickname)
+    elif cmnd == "quit":
+        quit()
+    else:
+        print("Invalid Command")
 
+def kick(nickname):
+    pass
+
+def quit():
+    pass
 
 def receive():
     while True:
